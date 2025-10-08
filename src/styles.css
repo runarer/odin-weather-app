@@ -32,8 +32,6 @@
 .weather-hour-number {
   font-family: "Trebuchet MS";
   font-size: 25px;
-  /* color: white; */
-  /* background: black; */
   width: 2ch;
   aspect-ratio: 1 / 1;
   position: absolute;
@@ -45,9 +43,8 @@
   font-family: "Trebuchet MS";
   font-size: x-large;
   position: absolute;
-  bottom: 0px;
-  right: 0px;
-  padding: 10px;
+  bottom: 15%;
+  right: 15%;
 }
 
 .weather-hour > img {
@@ -61,7 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border: solid green 1px; */
+  border: solid green 1px;
   position: relative;
 }
 
