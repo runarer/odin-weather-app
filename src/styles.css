@@ -1,0 +1,103 @@
+.weather-app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  height: 900px;
+  width: 600px;
+  border: solid red 1px;
+}
+
+.weather-day {
+  text-align: center;
+}
+.weather-day-date {
+  font-weight: 900;
+  font-size: xxx-large;
+}
+.weather-day-weekday {
+  font-weight: 600;
+  font-size: xx-large;
+}
+
+.weather-hours {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(6, 100px);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-self: center;
+}
+
+.weather-hour-number {
+  font-family: "Trebuchet MS";
+  font-size: 25px;
+  /* color: white; */
+  /* background: black; */
+  width: 2ch;
+  aspect-ratio: 1 / 1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.weather-hour-temp {
+  font-family: "Trebuchet MS";
+  font-size: x-large;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 10px;
+}
+
+.weather-hour > img {
+  width: 100%;
+  height: 100%;
+}
+
+.weather-hour {
+  width: 100px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: solid green 1px; */
+  position: relative;
+}
+
+.weather-this-hour {
+  border: solid lightskyblue 1px;
+  border-radius: 50%;
+  background-color: lightblue;
+}
+
+.weather-menu {
+  height: 2rem;
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: solid gray 2px;
+  border-radius: 10px;
+  background: lightgray;
+}
+
+.weather-menu-item {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: lightgray;
+}
+
+.weather-menu-selected {
+  background: gainsboro;
+}
+.weather-tribute {
+  width: 100%;
+  text-align: center;
+}
