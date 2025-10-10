@@ -5,17 +5,17 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   height: 900px;
   width: 600px;
-  border: solid red 1px;
+  /* border: solid red 1px; */
 }
 
 .weather-day {
   text-align: center;
 }
-.weather-day-date {
+#weather-day-date {
   font-weight: 900;
   font-size: xxx-large;
 }
-.weather-day-weekday {
+#weather-day-weekday {
   font-weight: 600;
   font-size: xx-large;
 }
@@ -31,7 +31,7 @@
 
 .weather-hour-number {
   font-family: "Trebuchet MS";
-  font-size: 25px;
+  font-size: 20px;
   width: 2ch;
   aspect-ratio: 1 / 1;
   position: absolute;
@@ -58,7 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid green 1px;
+  /* border: solid green 1px; */
   position: relative;
 }
 
@@ -97,4 +97,41 @@
 .weather-tribute {
   width: 100%;
   text-align: center;
+}
+
+.weather-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#input-location {
+  width: 80%;
+  height: 1.5em;
+  font-size: 150%;
+  text-align: center;
+}
+
+.weather-temp-warm {
+  color: orangered;
+}
+
+.weather-temp-cold {
+  color: royalblue;
+}
+
+.weather-table-main {
+  display: flex;
+  justify-content: center;
+}
+.weather-nav {
+  align-self: stretch;
+  justify-self: stretch;
+  width: 10%;
+}
+.weather-nav:hover {
+  background: lightgrey;
+}
+.weather-location-not-found {
+  background: crimson;
 }
