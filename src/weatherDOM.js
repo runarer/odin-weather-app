@@ -1,24 +1,10 @@
-import { getWeatherData, getOldWeatherData } from "./weatherAPI";
-/**
- * Is there a better way to import these images and use them?
- */
-import clearDay from "./icons/clear-day.svg";
-import clearNight from "./icons/clear-night.svg";
-import partlyCloudyDay from "./icons/partly-cloudy-day.svg";
-import partlyCloudyNight from "./icons/partly-cloudy-night.svg";
-import cloudy from "./icons/cloudy.svg";
-import rain from "./icons/rainy-5.svg";
+import { getWeatherData } from "./weatherAPI";
+import images from "./imageLoading";
 
-let images = new Map();
-images.set("clear-day", clearDay);
-images.set("clear-night", clearNight);
-images.set("partly-cloudy-day", partlyCloudyDay);
-images.set("partly-cloudy-night", partlyCloudyNight);
-images.set("cloudy", cloudy);
-images.set("rain", rain);
+// Location to display.
+let location = "Larvik,Norway";
 
 const locationInput = document.getElementById("input-location");
-let location = "Larvik,Norway";
 const weatherDayDate = document.getElementById("weather-day-date");
 const weatherDayWeekday = document.getElementById("weather-day-weekday");
 let weatherHours = document.querySelector(".weather-hours");
@@ -26,40 +12,32 @@ let weatherHours = document.querySelector(".weather-hours");
 const backwards = document.getElementById("weather-back");
 const forwards = document.getElementById("weather-forward");
 
+// API calls back in time cost a lot more, so this stores data
+// so that we don't pay going back and forth over allready queried data.
+// Older days are appended to the end, from index 15 and so on.
+// But the index uses negative values. I should find a better way to do the caching.
 let weatherDataCache = undefined;
 let dayIndex = 0;
 
-/* Event listeners */
-locationInput.addEventListener("focus", locationInput.select);
-locationInput.addEventListener("focusout", updateLocation);
-locationInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.target.blur();
-  }
-});
-
-backwards.addEventListener("click", goBackward);
-forwards.addEventListener("click", goForward);
-
-function locationNotFound() {
+const locationNotFound = () => {
   locationInput.classList.add("weather-location-not-found");
-}
+};
 
-function goBackward() {
+const goBackward = () => {
   if (dayIndex > -13) dayIndex--;
   else return;
 
   updateDisplay();
-}
+};
 
-function goForward() {
+const goForward = () => {
   if (dayIndex < 14) dayIndex++;
   else return;
 
   updateDisplay();
-}
+};
 
-async function updateDisplay() {
+const updateDisplay = async () => {
   if (dayIndex < 0) {
     const newIndex = 14 + Math.abs(dayIndex);
     if (weatherDataCache[newIndex] === undefined) {
@@ -67,9 +45,10 @@ async function updateDisplay() {
         let date = new Date();
         date.setDate(date.getDate() + dayIndex);
         console.log(date);
-        weatherDataCache[newIndex] = await getOldWeatherData(location, date);
+        weatherDataCache[newIndex] = await getWeatherData(location, date);
       } catch (err) {
         locationNotFound();
+        console.log(err);
         return;
       }
     }
@@ -77,9 +56,9 @@ async function updateDisplay() {
   } else {
     createWeatherDisplay(weatherDataCache[dayIndex]);
   }
-}
+};
 
-function updateLocation() {
+const updateLocation = () => {
   if (locationInput.value === "") locationInput.value = location;
   if (location === locationInput.value) return;
 
@@ -88,9 +67,9 @@ function updateLocation() {
   dayIndex = 0;
   location = locationInput.value;
   displayWeatherData();
-}
+};
 
-function setDate(datetime) {
+const setDate = (datetime) => {
   const date = new Date(datetime);
   let localMonth = date.toLocaleString("default", { month: "long" });
   localMonth = localMonth.replace(/^./, (char) => char.toUpperCase());
@@ -102,9 +81,9 @@ function setDate(datetime) {
 
   weatherDayDate.textContent = `${localMonth} ${date.getDate()}`;
   weatherDayWeekday.textContent = localWeekday;
-}
+};
 
-function createWeatherTable(dayData) {
+const createWeatherTable = (dayData) => {
   const weatherHoursNew = document.createElement("div");
   weatherHoursNew.classList.add("weather-hours");
 
@@ -135,9 +114,9 @@ function createWeatherTable(dayData) {
     weatherHoursNew.appendChild(weatherHour);
   });
   return weatherHoursNew;
-}
+};
 
-function createWeatherDisplay(weatherData) {
+const createWeatherDisplay = (weatherData) => {
   // Day and date
   setDate(weatherData.datetime);
 
@@ -145,18 +124,32 @@ function createWeatherDisplay(weatherData) {
   const weatherTable = createWeatherTable(weatherData);
   weatherHours.replaceWith(weatherTable);
   weatherHours = weatherTable;
-}
+};
 
-async function displayWeatherData() {
+const displayWeatherData = async () => {
   try {
     // Get weather data from location
     weatherDataCache = await getWeatherData(location);
+    console.log(weatherDataCache);
 
     // Create html for weather
     createWeatherDisplay(weatherDataCache[dayIndex]);
   } catch (err) {
+    console.log(err);
     locationNotFound();
   }
-}
+};
+
+/* Event listeners */
+locationInput.addEventListener("focus", locationInput.select);
+locationInput.addEventListener("focusout", updateLocation);
+locationInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.target.blur();
+  }
+});
+
+backwards.addEventListener("click", goBackward);
+forwards.addEventListener("click", goForward);
 
 export { displayWeatherData };
