@@ -7,3 +7,7 @@ it in a nice, readable way for a given location.
 Weater API used is [Visual Crossing API](https://www.visualcrossing.com/)
 
 Weather icons by amCharts.
+
+## Todo
+
+- [ ] Add arrows on sides so it is clear how to navigate forward and backwards.
